@@ -1,13 +1,8 @@
 package com.venancio.springprj;
 
-import com.venancio.springprj.domain.Categoria;
-import com.venancio.springprj.domain.Cidade;
-import com.venancio.springprj.domain.Estado;
-import com.venancio.springprj.domain.Produto;
-import com.venancio.springprj.repositories.CategoriaRepository;
-import com.venancio.springprj.repositories.CidadeRepository;
-import com.venancio.springprj.repositories.EstadoRepository;
-import com.venancio.springprj.repositories.ProdutoRepository;
+import com.venancio.springprj.domain.*;
+import com.venancio.springprj.domain.enums.TipoCliente;
+import com.venancio.springprj.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,16 +14,22 @@ import java.util.Arrays;
 public class SpringprjApplication implements CommandLineRunner  {
 
 	@Autowired
-	CategoriaRepository categoriaRepository;
+	private CategoriaRepository categoriaRepository;
 
 	@Autowired
-	ProdutoRepository produtoRepository;
+	private ProdutoRepository produtoRepository;
 
 	@Autowired
-	CidadeRepository cidadeRepository;
+	private CidadeRepository cidadeRepository;
 
 	@Autowired
-	EstadoRepository estadoRepository;
+	private EstadoRepository estadoRepository;
+
+	@Autowired
+	private ClienteRepository clienteRepository;
+
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringprjApplication.class, args);
@@ -52,6 +53,14 @@ public class SpringprjApplication implements CommandLineRunner  {
 		Cidade cid2 = new Cidade(null, "Recife", est2);
 		Cidade cid3 = new Cidade(null, "São Paulo", est3);
 
+		Cliente cliente1 = new Cliente(null, "Adeeb", "gg@gmail.com","521356689", TipoCliente.PESSOAFISICA);
+
+		cliente1.getTelefones().addAll(Arrays.asList("52235436","552264444"));
+
+		Endereco e1 = new Endereco(null,"Rua Omega","300","apt1","Font","73773737",cliente1,cid1);
+
+		cliente1.getEnderecos().addAll(Arrays.asList(e1));
+
 		cat1.getProdutos().addAll(Arrays.asList(p1,p2,p3));
 		cat2.getProdutos().addAll(Arrays.asList(p2));
 
@@ -67,6 +76,8 @@ public class SpringprjApplication implements CommandLineRunner  {
 		produtoRepository.saveAll((Arrays.asList(p1,p2,p3)));
 		estadoRepository.saveAll((Arrays.asList(est1,est2,est3)));
 		cidadeRepository.saveAll((Arrays.asList(cid1,cid2,cid3)));
+		clienteRepository.saveAll((Arrays.asList(cliente1)));
+		enderecoRepository.saveAll((Arrays.asList(e1)));
 
 	}
 }
