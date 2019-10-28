@@ -1,6 +1,6 @@
 package com.venancio.springprj.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.venancio.springprj.domain.enums.EstadoPagamento;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,37 +8,35 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Setter
 @Getter
+@Setter
 @Entity
-public class Cidade implements Serializable {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Pagamento implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String nome;
+    private Integer estado;
+    @OneToOne
+    @JoinColumn(name="pedido_id")
+    @MapsId
+    private Pedido pedido;
 
-    @JsonManagedReference
-    @ManyToOne
-    @JoinColumn(name= "estado_id")
-    private Estado estado;
+    public Pagamento(){}
 
-    public Cidade(){}
-
-    public Cidade(Integer id, String nome, Estado estado) {
-        super();
+    public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
         this.id = id;
-        this.nome = nome;
-        this.estado = estado;
+        this.estado = estado.getCodigo();
+        this.pedido = pedido;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Cidade cidade = (Cidade) o;
-        return Objects.equals(id, cidade.id);
+        Pagamento pagamento = (Pagamento) o;
+        return id.equals(pagamento.id);
     }
 
     @Override
