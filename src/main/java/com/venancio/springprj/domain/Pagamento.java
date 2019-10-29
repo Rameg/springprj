@@ -1,6 +1,6 @@
 package com.venancio.springprj.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.venancio.springprj.domain.enums.EstadoPagamento;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +20,7 @@ public abstract class Pagamento implements Serializable {
     private Integer id;
     private Integer estado;
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name="pedido_id")
     @MapsId

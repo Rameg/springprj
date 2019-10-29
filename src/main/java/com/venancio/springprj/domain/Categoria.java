@@ -1,6 +1,5 @@
 package com.venancio.springprj.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +19,6 @@ public class Categoria implements Serializable {
     private Integer id;
     private String nome;
 
-    @JsonManagedReference
     @ManyToMany(mappedBy = "categorias")
     List<Produto> produtos = new ArrayList<>();
 
