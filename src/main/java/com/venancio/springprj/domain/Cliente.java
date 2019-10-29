@@ -1,5 +1,6 @@
 package com.venancio.springprj.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.venancio.springprj.domain.enums.TipoCliente;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class Cliente implements Serializable {
     @CollectionTable(name = "telefone")
     private Set<String> telefones = new HashSet<>();
 
+    @JsonBackReference
     @OneToMany(mappedBy = "cliente")
     private List<Pedido>pedidos =  new ArrayList<>();
 
